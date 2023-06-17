@@ -19,7 +19,7 @@
             return '<label class="filter-nav__checkbox-label" for="filter-option-' . $optionName . '">' .
                         '<input class="filter-nav__checkbox-input filter-nav__checkbox--option-group-'. $optGroupClass .'" id="filter-option-' . $optionName . '"
                             type="checkbox" name="' . $optionName . '"
-                            onChange="changeUserListFilterOptions(`' . $optGroupClass . '`, this, `' . $filterTarget . '`)">' .
+                            onChange="changeUserListFilterOptions(`' . $optionParent . '`, this, `' . $filterTarget . '`)">' .
                             $optionName .
                     '</label>';
         }
