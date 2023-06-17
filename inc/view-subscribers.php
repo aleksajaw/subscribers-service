@@ -29,29 +29,7 @@
 
 
                         //echo $userListTableBuilder->userListHeader(['#','Name','Email','Action Performed', 'Date', 'Action']);
-
-
-                        /*1. Widok wyświetlający nazwę użytkowników oraz datę ich dodania
-
-                        2. Widok wyświetlający nazwę użytkowników oraz datę ich usunięcia 
-
-                        3. Widok wyświetlający nazwę użytkowników oraz datę ich edycji 
-
-                        4. Widok wyświetlający nazwę już usuniętych użytkowników oraz daty ich dodania i usunięcia 
-
-                        5. Widok wyświetlający tylko istniejących użytkowników (bez korzystania z tabelki subscribers).
-
-                        [Uwaga, dla podpunktu 5, zakładamy że użytkownicy nie zmienili nazwy]
-
-                        Stwórz stronę internetową wyświetlającą wszystkie powyższe pięć widoków, każdy w kolejnej tabeli.
-
-
-
-                        Na ocenę 5:
-
-                        Swtórz stronę internetową wyświetlającą jedną tabelę zdefiniowaną w formularzu przez użytkownika.
-                        Użytkownik poprzez formularz na stronie modyfikuje swój własny widok tabeli.*/
-
+                        
                         
                         $headingsInfo = mysqli_fetch_fields($result);
                         $headingsArr[] = 'user_action';
