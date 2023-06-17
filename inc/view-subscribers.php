@@ -7,7 +7,7 @@
             require('./inc/view-subscribers_filter-nav.php');
             
             $query = "SELECT subscribers.number, subscribers.fname, subscribers.email, audit_subscribers.action_performed, audit_subscribers.date_added 
-                        FROM audit_subscribers JOIN subscribers ON audit_subscribers.subscriber_name = subscribers.fname;";
+                        FROM audit_subscribers JOIN subscribers ON audit_subscribers.subscriber_name = subscribers.fname  ORDER BY number DESC";
 
             $stmt = $mysqli->prepare($query);
             $stmt->execute();
@@ -61,24 +61,36 @@
                         }
                         $userListTableBuilder->userListHeader($headingsArr);
                         
-                        
+                        $prevUserNumber = null;
+                        $nextRowsForSameUser = ['action_performed', 'date_added'];
+
                         if ($result->num_rows > 0) {
 
                             while ($row = $result->fetch_assoc()) {
                                                   
                                 $userNumber = $row['number'];
 
-                                $userActionCell = $userListTableBuilder->userActionCell(['edit'=>$row["number"],'del'=>$row["number"]]);
+                                $userActionCell = ($row['number'] != $prevUserNumber)
+                                                    ? $userListTableBuilder->userActionCell(['edit'=>$row["number"],'del'=>$row["number"]])
+                                                    : $userListTableBuilder->userActionCell([]);
 
                                 $userColumns = [];
+
                                 foreach($headingsInfo as $column) {
-                                    $userColumns[] = $row[$column->name];
+                                    $colName = $column->name;
+                                    $userColumns[] = ( $row['number'] != $prevUserNumber || in_array($colName, $nextRowsForSameUser) )
+                                                        ? $row[$colName]
+                                                        : '';
                                 }
 
-                                $userRowCells = array_merge([$userActionCell], 
-                                    $userListTableBuilder->userInfoCells(...$userColumns));
+                                $userRowCells = array_merge(
+                                                    [$userActionCell], 
+                                                    $userListTableBuilder->userInfoCells(...$userColumns)
+                                                );
 
                                 $userListTableBuilder->userInfoRow($userNumber, $userRowCells);
+
+                                $prevUserNumber = $row['number'];
                             }
 
                         } else {
@@ -87,7 +99,10 @@
                         }
                     
                         $userActionCell = $userListTableBuilder->userActionCell(['add' => true]);
-                        $newUserCells = array_merge([$userActionCell], $userListTableBuilder->newUserInfoCells(null));
+                        $newUserCells = array_merge(
+                                            [$userActionCell],
+                                            $userListTableBuilder->newUserInfoCells(null)
+                                        );
 
                         $userListTableBuilder->userInfoRow(null, $newUserCells, 'user-list__row--add-user') .
 
