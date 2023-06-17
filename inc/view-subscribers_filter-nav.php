@@ -50,8 +50,9 @@
 
                 $userListFilterBuilder->addOptionGroup($options3);
 
-                
+                $options4 = [];
                 $options4[] = $userListFilterBuilder->userListFilterCheckbox('', 'insert', 'row');
+                $options4[] = $userListFilterBuilder->userListFilterCheckbox('', 'update', 'row');
                 
                 $userListFilterBuilder->addOptionGroup($options4);
 

@@ -11,6 +11,7 @@ let filterOptions = {
         },
         user_action: true,
         insert: true,
+        update: true,
         addNewUser: true
     }
 
