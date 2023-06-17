@@ -29,7 +29,7 @@
 
 
                         //echo $userListTableBuilder->userListHeader(['#','Name','Email','Action Performed', 'Date', 'Action']);
-                        
+
                         
                         $headingsInfo = mysqli_fetch_fields($result);
                         $headingsArr[] = 'user_action';
@@ -42,6 +42,19 @@
                         $prevUserNumber = null;
                         $nextRowsForSameUser = ['action_performed', 'date_added'];
 
+
+
+                        $actionClass = [
+                                'insert' => 'Insert a new subscriber',
+                                'update' => 'Updated a subscriber',
+                                'delete' => 'Deleted a subscriber'
+                            ];
+
+
+                        $rowClass = '';
+
+
+                        
                         if ($result->num_rows > 0) {
 
                             while ($row = $result->fetch_assoc()) {
@@ -66,7 +79,13 @@
                                                     $userListTableBuilder->userInfoCells(...$userColumns)
                                                 );
 
-                                $userListTableBuilder->userInfoRow($userNumber, $userRowCells);
+
+                                if ( $row['action_performed'] != '') {
+                                    $actionClassKey = array_search($row['action_performed'], $actionClass);
+                                    $rowClass = 'user-list__row--' . $actionClassKey;
+                                }
+
+                                $userListTableBuilder->userInfoRow($userNumber, $userRowCells, $rowClass);
 
                                 $prevUserNumber = $row['number'];
                             }
