@@ -60,18 +60,21 @@
                             while ($row = $result->fetch_assoc()) {
                                                   
                                 $userNumber = $row['number'];
-
-                                $userActionCell = ($row['number'] != $prevUserNumber)
+                                $userActionCell = $userListTableBuilder->userActionCell(['edit'=>$row["number"],'del'=>$row["number"]]);
+                                $rowClass = ( $row['number'] === $prevUserNumber ) ? 'user-list__row--hidden-user ' : '';
+                                
+                                /*$userActionCell = ($row['number'] != $prevUserNumber)
                                                     ? $userListTableBuilder->userActionCell(['edit'=>$row["number"],'del'=>$row["number"]])
-                                                    : $userListTableBuilder->userActionCell([]);
+                                                    : $userListTableBuilder->userActionCell([]);*/
 
                                 $userColumns = [];
 
                                 foreach($headingsInfo as $column) {
                                     $colName = $column->name;
-                                    $userColumns[] = ( $row['number'] != $prevUserNumber || in_array($colName, $nextRowsForSameUser) )
+                                    $userColumns[] = $row[$colName];
+                                    /*$userColumns[] = ( $row['number'] != $prevUserNumber || in_array($colName, $nextRowsForSameUser) )
                                                         ? $row[$colName]
-                                                        : '';
+                                                        : '';*/
                                 }
 
                                 $userRowCells = array_merge(
@@ -82,7 +85,7 @@
 
                                 if ( $row['action_performed'] != '') {
                                     $actionClassKey = array_search($row['action_performed'], $actionClass);
-                                    $rowClass = 'user-list__row--' . $actionClassKey;
+                                    $rowClass .= 'user-list__row--' . $actionClassKey;
                                 }
 
                                 $userListTableBuilder->userInfoRow($userNumber, $userRowCells, $rowClass);
