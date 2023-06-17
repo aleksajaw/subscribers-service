@@ -35,10 +35,13 @@ td {
     text-align: center;
     min-width: 30px;
 }
-.user-list__cell--action-performed, .user-list__cell--action {
+.user-list__cell--action-performed {
     border-left: 2px solid black;
 }
-.user-list__cell--action-performed, .user-list__cell--date-added, .user-list__cell--action{
+.user-list__cell--user-action {
+    border-right: 2px solid black
+}
+.user-list__cell--action-performed, .user-list__cell--date-added, .user-list__cell--user-action{
     text-align: center;
     min-width: 100px;
 }
