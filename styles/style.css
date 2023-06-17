@@ -21,6 +21,9 @@ th {
 td {
     padding: 15px
 }
+.user-list__row--hidden-user td:not(.user-list__cell--info) {
+    visibility: hidden
+}
 .user-list__row--add-user {
     border-top: 3px solid rgba(0, 172, 0, 0.15);
     background-color: rgba(0, 172, 0, 0.1);

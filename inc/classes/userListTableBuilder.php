@@ -65,10 +65,10 @@
 
             $cells = [
                 $this->userNumberCell($number),
-                $this->userInfoCell('fname', 'fname[]', $fname, '', ''),
-                $this->userInfoCell('email', 'email[]', $email, '', 'email'),
-                $this->userInfoCell('action-performed user-list__input--not-editable', 'action_performed[]', $action_performed, '', ''),
-                $this->userInfoCell('date-added user-list__input--not-editable', 'date_added[]', $date_added, '', ''),
+                $this->userInputCell('fname', 'fname[]', $fname, '', ''),
+                $this->userInputCell('email', 'email[]', $email, '', 'email'),
+                $this->userInfoCell('action-performed', $action_performed),
+                $this->userInfoCell('date-added', $date_added),
             ];
             return $cells;
         }
@@ -78,8 +78,8 @@
             
             $cells = [
                         $this->userNumberCell(null),
-                        $this->userInfoCell('fname', 'fname[]', '', 'Imię i nazwisko', '', 'updateFutureUserInfo(this)', false),
-                        $this->userInfoCell('email', 'email[]', '', 'email', 'email', 'updateFutureUserInfo(this)', false),
+                        $this->userInputCell('fname', 'fname[]', '', 'Imię i nazwisko', '', 'updateFutureUserInfo(this)', false),
+                        $this->userInputCell('email', 'email[]', '', 'email', 'email', 'updateFutureUserInfo(this)', false),
                         $this->userEmptyCell('action-performed'),
                         $this->userEmptyCell('date-added'),
                     ];
@@ -120,7 +120,18 @@
         }
 
 
-        public function userInfoCell($class = '', $name = '', $value = '', $placeholder = '', $type='text', $onChange = 'trimWholeInputValue(this)', $disabled = true ) {
+        public function userInfoCell($class, $info) {
+            
+
+            return "<td class='user-list__cell user-list__cell--info user-list__cell--" . $class . "'>".
+                    
+                        $info
+
+                    . "</td>";
+        }
+
+        
+        public function userInputCell($class = '', $name = '', $value = '', $placeholder = '', $type='text', $onChange = 'trimWholeInputValue(this)', $disabled = true ) {
             
             $disabled = $disabled ? ' disabled' : '';
             $type = $type ? $type : 'text';
