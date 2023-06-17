@@ -12,12 +12,14 @@
             $this->optionGroups[] = $optionGroup;
         }
 
-        public function userListFilterCheckbox($optionValue = false, $optionTable = '', $optionName = '') {
+        public function userListFilterCheckbox($optionParent = '', $optionName = '', $filterTarget = 'cell') {
             
+            $optGroupClass = ($optionParent) ? $optionParent : $optionName;
+
             return '<label class="filter-nav__checkbox-label" for="filter-option-' . $optionName . '">' .
-                        '<input class="filter-nav__checkbox-input filter-nav__checkbox--option-group-'. $optionTable .'" id="filter-option-' . $optionName . '"
+                        '<input class="filter-nav__checkbox-input filter-nav__checkbox--option-group-'. $optGroupClass .'" id="filter-option-' . $optionName . '"
                             type="checkbox" name="' . $optionName . '"
-                            onChange="changeUserListFilterOptions(`' . $optionTable . '`, this)">' .
+                            onChange="changeUserListFilterOptions(`' . $optGroupClass . '`, this, `' . $filterTarget . '`)">' .
                             $optionName .
                     '</label>';
         }

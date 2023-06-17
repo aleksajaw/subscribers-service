@@ -10,6 +10,7 @@ let filterOptions = {
             date_added: true 
         },
         user_action: true,
+        insert: true,
         addNewUser: true
     }
 
@@ -19,22 +20,34 @@ function updateCheckboxes () {
      
     let checkboxes = document.querySelectorAll('.filter-nav__checkbox-input');
     checkboxes.forEach( checkbox => {
-        let table = getDataFromClassName(checkbox, 'option-group-');
-        checkbox.checked = filterOptions[table][checkbox.name] || filterOptions[table];
+        let optGroupName = getDataFromClassName(checkbox, 'option-group-');
+        checkbox.checked = filterOptions[optGroupName][checkbox.name] || filterOptions[optGroupName];
     })
 }
 
 
 
-function changeUserListFilterOptions(table, checkbox) {
+function changeUserListFilterOptions(optGroupName, checkbox, filterTarget ='') {
 
-    if ( table != checkbox.name ) filterOptions[table][checkbox.name] = checkbox.checked;
+    if ( optGroupName != '' ) filterOptions[optGroupName][checkbox.name] = checkbox.checked;
     else filterOptions[checkbox.name] = checkbox.checked;
-    let cellClass = '.user-list__cell--' + checkbox.name.replace('_', '-');
-    document.querySelectorAll(cellClass).forEach( cell =>{
-        if ( !checkbox.checked ) cell.classList.add('display-none');
-        else cell.classList.remove('display-none');
-    })
+    
+    
+    if ( filterTarget === 'row' ) changeDisplaying(checkbox, 'row');
+    else changeDisplaying(checkbox, 'cell');
+}
+
+
+
+function changeDisplaying(checkbox, el='') {
+
+    if ( el ) {
+        let elClass = '.user-list__' + el + '--' + checkbox.name.replace('_', '-');
+        document.querySelectorAll(elClass).forEach( el =>{
+            if ( !checkbox.checked ) el.classList.add('display-none');
+            else el.classList.remove('display-none');
+        })
+    }
 }
 
 

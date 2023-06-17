@@ -23,7 +23,7 @@
                     $options1 = [];
                     foreach ($fieldInfo as $field) {
                         $columnName = $field->name;
-                        $options1[] = $userListFilterBuilder->userListFilterCheckbox(false, $tableName, $columnName);
+                        $options1[] = $userListFilterBuilder->userListFilterCheckbox($tableName, $columnName);
                     }
                     $userListFilterBuilder->addOptionGroup($options1);
                 }
@@ -40,18 +40,27 @@
                     $options2 = [];
                     foreach ($fieldInfo as $field) {
                         $columnName = $field->name;
-                        $options2[] = $userListFilterBuilder->userListFilterCheckbox(false, $tableName, $columnName);
+                        $options2[] = $userListFilterBuilder->userListFilterCheckbox($tableName, $columnName);
                     }
                     $userListFilterBuilder->addOptionGroup($options2);
                 }
-                $options3[] = $userListFilterBuilder->userListFilterCheckbox(false, 'user_action', 'user_action');
+
+
+                $options3[] = $userListFilterBuilder->userListFilterCheckbox('', 'user_action');
+
                 $userListFilterBuilder->addOptionGroup($options3);
+
+                
+                $options4[] = $userListFilterBuilder->userListFilterCheckbox('', 'insert', 'row');
+                
+                $userListFilterBuilder->addOptionGroup($options4);
+
 
                 $userListFilterBuilder->render();
             ;?>
+
         </div>
         <style>
-            /* Floating navigation bar styles */
             .filter-nav {
                 position: fixed;
                 top: 0;
