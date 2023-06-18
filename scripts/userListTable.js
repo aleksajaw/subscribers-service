@@ -140,7 +140,7 @@ function editUser(userNumber) {
 
     let rowNrClass = '.user-list__row--number-' + userNumber;
     let rowByNrClass = document.querySelector(rowNrClass);
-    let rowNr = $('.user-list__row').index($(rowNrClass));
+    let rowNr = Array.from(document.querySelectorAll('.user-list__row')).indexOf(rowByNrClass);
     let rowInputs = rowByNrClass.querySelectorAll('.user-list__input:not(.user-list__input--not-editable)');
     let i = rowInputs.length;
     let rowData = {};
