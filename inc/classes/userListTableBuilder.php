@@ -35,10 +35,11 @@
             
             $rowClass = 'user-list__row';
 
-            if ( $class ) $rowClass .= ' ' . $class;
 
             if ( $number != null ) $rowClass .= ' user-list__row--existing-user user-list__row--number-' . $number;
 
+            if ( $class ) $rowClass .= ' ' . $class;
+            
             $row = '<tr class="' . $rowClass . '"' . '>';
 
                 foreach ($cells as $cell) {
@@ -130,7 +131,7 @@
                     . "</td>";
         }
 
-        
+
         public function userInputCell($class = '', $name = '', $value = '', $placeholder = '', $type='text', $onChange = 'trimWholeInputValue(this)', $disabled = true ) {
             
             $disabled = $disabled ? ' disabled' : '';
