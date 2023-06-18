@@ -10,9 +10,9 @@ let editMode = {
     }
 
 
-setWatchers(userList, 'userList');
-setWatchers(futureUserInfo, 'futureUserInfo');
-setWatchers(editMode, 'editMode');
+setObjWatchers(userList, 'userList');
+setObjWatchers(futureUserInfo, 'futureUserInfo');
+setObjWatchers(editMode, 'editMode');
 
 
 document.addEventListener('DOMContentLoaded', function () {

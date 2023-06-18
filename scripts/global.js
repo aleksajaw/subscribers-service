@@ -52,7 +52,7 @@ function consoleVariableChangeLog(newValue, keyPath) {
 
 
 
-function setWatchers(obj, keyPath = '', handleChange) {
+function setObjWatchers(obj, keyPath = '', handleChange) {
 
     for (let key in obj) {
         let currentPath = keyPath ? keyPath + '.' + key : key;
@@ -60,22 +60,29 @@ function setWatchers(obj, keyPath = '', handleChange) {
     
         if (typeof value === 'object' && value !== null) {
 
-            setWatchers(value, currentPath, handleChange);
+            setObjWatchers(value, currentPath, handleChange);
         } else {
-            
-            Object.defineProperty(obj, key, {
-                get: function() {
-                    return value;
-                },
-                set: function(newValue) {
-                    value = newValue;
-                    consoleVariableChangeLog(newValue, currentPath);
-                    if (typeof handleChange === 'function') handleChange();
-                }
-            });
+            setSingleWatcher(obj, key, value, currentPath, handleChange);
         }
     }
 }
+
+
+
+function setSingleWatcher(container, variable, value, variablePath, handleChange){
+
+    Object.defineProperty(container, variable, {
+        get: function() {
+            return value;
+        },
+        set: function(newValue) {
+            value = newValue;
+            consoleVariableChangeLog(newValue, variablePath);
+            if (typeof handleChange === 'function') handleChange();
+        }
+    });
+}
+
 
 
 function getValueFromObjectPath(obj, path) {
@@ -87,6 +94,7 @@ function getValueFromObjectPath(obj, path) {
     });
     return value;
 }
+
 
 
 function findKeyPath(obj, targetKey, keyPath = '', showLog = false) {
@@ -108,7 +116,8 @@ function findKeyPath(obj, targetKey, keyPath = '', showLog = false) {
         }
     }
     return null;
-  }
+}
+
 
 
 function searchKeyValueDeepInside(objToSearch, targetKey, showLog = false) {
@@ -118,6 +127,7 @@ function searchKeyValueDeepInside(objToSearch, targetKey, showLog = false) {
     if ( showLog ) console.log(keyPath + ': ' + value);
     return value;
 }
+
 
 
 function getDataFromClassName(el, data='') {

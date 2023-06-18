@@ -17,6 +17,10 @@ let filterOptions = {
 
 
 
+setObjWatchers(filterOptions, 'filterOptions', function () {});
+
+
+
 function updateCheckboxes () {
      
     let checkboxes = document.querySelectorAll('.filter-nav__checkbox-input');
@@ -67,7 +71,3 @@ function updateStyles() {
 
     document.querySelector('.user-list__view').style.marginTop = filterNavHeight + 20 + 'px';
 }
-
-
-
-setWatchers(filterOptions, 'filterOptions', function () {});
