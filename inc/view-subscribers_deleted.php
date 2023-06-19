@@ -8,7 +8,7 @@
                         SELECT subscriber_number
                         FROM audit_subscribers
                         WHERE action_type = 'delete'
-                        )
+                    )
                     ORDER BY
                         subscriber_number,
                         CASE WHEN action_type = 'delete' THEN 0 ELSE 1 END,
@@ -59,14 +59,18 @@
                     }
 
                     $userRowCells = array_merge(
-                        [$userActionCell], 
-                        $userListTableBuilder->userDataCells($userColumns)
-                    );
+                                        [$userActionCell], 
+                                        $userListTableBuilder->userDataCells($userColumns)
+                                    );
 
                     if ( isset($row['action_type']) ) $rowClass .= 'user-list__row--' . $row['action_type'];
 
-                    $userListTableBuilder->userDataRow($userNumber, $userRowCells, $rowClass);
+                    $userListTableBuilder->userDataRow($userNumber, $userRowCells, $rowClass, false);
 
                     $prevUserNumber = $userNumber;
                 }
+                //$noDataRowClass = 'display-none';
             }
+
+
+            //$userListTableBuilder->noUserDataRow($noDataRowClass);

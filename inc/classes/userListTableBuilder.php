@@ -230,13 +230,13 @@
                             <tbody> ' .
                                 $this->headingsRow;
             
-                                if (empty($this->rows)) {
+                                /*if (empty($this->rows)) {
                                     $table .= $this->noUserDataRow();
-                                } else {
+                                } else {*/
                                     foreach ($this->rows as $row) {
                                         $table .= $row;
                                     }
-                                }
+                                //}
             $table .=        '</tbody>
                         </table>
                     </table>';

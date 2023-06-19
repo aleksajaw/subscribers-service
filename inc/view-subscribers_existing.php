@@ -84,7 +84,7 @@
 
                     if ( isset($row['action_type']) ) $rowClass .= 'user-list__row--' . $row['action_type'];
 
-                    $userListTableBuilder->userDataRow($userNumber, $userRowCells, $rowClass);
+                    $userListTableBuilder->userDataRow($userNumber, $userRowCells, $rowClass, true);
 
                     $prevUserNumber = $userNumber;
                 }
