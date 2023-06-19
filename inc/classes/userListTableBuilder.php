@@ -31,12 +31,16 @@
         }
 
 
-        public function userDataRow($number=null, $cells='', $class = '') {
+        public function userDataRow($number=null, $cells='', $class = '', $doesUserExist=null) {
             
             $rowClass = 'user-list__row';
 
+            if ( isset($doesUserExist) ) {
+                $rowClass .= ($doesUserExist) ? ' user-list__row--existing-user'
+                                              : ' user-list__row--deleted-user';
+            }
 
-            if ( $number != null ) $rowClass .= ' user-list__row--existing-user user-list__row--number-' . $number;
+            if ( $number != null ) $rowClass .= ' user-list__row--user-data user-list__row--number-' . $number;
 
             if ( $class ) $rowClass .= ' ' . $class;
             

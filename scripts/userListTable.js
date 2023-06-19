@@ -32,7 +32,7 @@ function updateState() {
 
 function updateUserList() {
 
-    let listRow = document.querySelectorAll('.user-list__row--existing-user');
+    let listRow = document.querySelectorAll('.user-list__row--user-data');
 
     listRow.forEach( (row, i) => {
 

@@ -107,7 +107,7 @@ function changeDisplaying(checkbox, elName='') {
 
 function displayingReserveRowForEmptyTable(searchClass=''){
 
-    let isEmptyTable = !document.querySelectorAll('.user-list__row--existing-user' + searchClass + ':not(.display-none)').length;
+    let isEmptyTable = !document.querySelectorAll('.user-list__row--user-data' + searchClass + ':not(.display-none)').length;
     let noUserDataRow = document.querySelector('.user-list__row--no-data');
 
     if ( isEmptyTable ) {
