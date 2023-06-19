@@ -58,7 +58,7 @@ function changeUserListFilterOptions(optGroupName, checkbox, filterTarget = '') 
 
 
     if ( filterTarget === 'row' ) changeDisplaying(checkbox, 'row');
-    else if ( filterTarget === 'col' ) changeDisplaying(checkbox, 'cell');
+    else changeDisplaying(checkbox, 'cell');
 }
 
 

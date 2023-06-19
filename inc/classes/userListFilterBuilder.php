@@ -12,7 +12,7 @@
             $this->optionGroups[] = $optionGroup;
         }
 
-        public function userListFilterCheckbox($optionParent = '', $optionName = '', $filterTarget = 'col') {
+        public function userListFilterCheckbox($optionParent = '', $optionName = '', $filterTarget = 'cell') {
             
             $optGroupClass = ($optionParent) ? $optionParent : $optionName;
 
@@ -26,9 +26,9 @@
 
         public function render() {
             
-            $filter = '<div class="user-list-filter-filter__container">';
+            $filter = '<div class="user-list-filter__container">';
             foreach ($this->optionGroups as $optionGroup) {
-                $filter .= '<div class="user-list-filter-filter__group">';
+                $filter .= '<div class="user-list-filter__group">';
                 
                 foreach ($optionGroup as $option) {
                     $filter .= $option;
