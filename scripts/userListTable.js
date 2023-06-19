@@ -59,7 +59,7 @@ function trimWholeInputValue(input) {
     let newInputVal = (input.value).trim()
     if ( !input.value ) {
         let grandparentEl = input.parentNode.parentNode;
-        let grandparentNr = getNrFromClass(grandparentEl);
+        let grandparentNr = getDataFromClassName(grandparentEl);
     
         if ( grandparentNr ) {
             let inputName = getProperName(input);
