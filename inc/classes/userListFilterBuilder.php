@@ -12,7 +12,7 @@
             $this->optionGroups[] = $optionGroup;
         }
 
-        public function userListFilterCheckbox($optionParent = '', $optionName = '', $filterTarget = 'cell') {
+        public function userListFilterCheckbox($optionParent = '', $optionName = '', $filterTarget = 'col') {
             
             $optGroupClass = ($optionParent) ? $optionParent : $optionName;
 
