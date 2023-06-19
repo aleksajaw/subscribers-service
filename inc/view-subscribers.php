@@ -17,6 +17,7 @@ require('./inc/view-subscribers_filter-nav.php');
     <?php
             
             require( './inc/view-subscribers_existing.php');
+            require( './inc/view-subscribers_add-user.php' );
             require( './inc/view-subscribers_deleted.php' );
 
 
