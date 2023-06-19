@@ -6,6 +6,7 @@
                         
             require('./inc/view-subscribers_filter-nav.php');
             
+            // here we have the version for the unchanged subscriber's name
             $query = "SELECT subscribers.number, subscribers.fname, subscribers.email, audit_subscribers.action_performed, audit_subscribers.date_added 
                         FROM audit_subscribers JOIN subscribers ON audit_subscribers.subscriber_name = subscribers.fname  ORDER BY number DESC";
 
@@ -35,14 +36,15 @@
                         $headingsArr[] = 'user_action';
 
                         foreach($headingsInfo as $headingInfo) {
-                            $headingsArr[] = $headingInfo->name;
+                            $headingName = $headingInfo->name;
+                            $headingsArr[] = $headingName;
                         }
                         $userListTableBuilder->userListHeader($headingsArr);
                         
                         $prevUserNumber = null;
                         $nextRowsForSameUser = ['action_performed', 'date_added'];
 
-
+                        
 
                         $actionClass = [
                                 'insert' => 'Insert a new subscriber',
@@ -52,34 +54,31 @@
 
 
                         $rowClass = '';
-
+                        $noDataRowClass = '';
 
                         
                         if ($result->num_rows > 0) {
 
                             while ($row = $result->fetch_assoc()) {
                                                   
-                                $userNumber = $row['number'];
+                                $userNumber = isset($row['number']) ? $row['number'] : null;
+                                $hasUserNumber = $userNumber && $userNumber === $prevUserNumber;
+
+                                $isRowHidden = $hasUserNumber;
+                                $rowClass = ( $isRowHidden ) ? 'user-list__row--hidden-user ' : '';
+
                                 $userActionCell = $userListTableBuilder->userActionCell(['edit'=>$row["number"],'del'=>$row["number"]]);
-                                $rowClass = ( $row['number'] === $prevUserNumber ) ? 'user-list__row--hidden-user ' : '';
-                                
-                                /*$userActionCell = ($row['number'] != $prevUserNumber)
-                                                    ? $userListTableBuilder->userActionCell(['edit'=>$row["number"],'del'=>$row["number"]])
-                                                    : $userListTableBuilder->userActionCell([]);*/
 
                                 $userColumns = [];
 
                                 foreach($headingsInfo as $column) {
                                     $colName = $column->name;
-                                    $userColumns[] = $row[$colName];
-                                    /*$userColumns[] = ( $row['number'] != $prevUserNumber || in_array($colName, $nextRowsForSameUser) )
-                                                        ? $row[$colName]
-                                                        : '';*/
+                                    $userColumns[$colName] = $row[$colName];
                                 }
 
                                 $userRowCells = array_merge(
                                                     [$userActionCell], 
-                                                    $userListTableBuilder->userInfoCells(...$userColumns)
+                                                    $userListTableBuilder->userDataCells($userColumns)
                                                 );
 
 
@@ -88,23 +87,23 @@
                                     $rowClass .= 'user-list__row--' . $actionClassKey;
                                 }
 
-                                $userListTableBuilder->userInfoRow($userNumber, $userRowCells, $rowClass);
+                                $userListTableBuilder->userDataRow($userNumber, $userRowCells, $rowClass);
 
-                                $prevUserNumber = $row['number'];
+                                $prevUserNumber = $userNumber;
                             }
-
-                        } else {
-
-                            $userListTableBuilder->noUserDataRow();
+                            $noDataRowClass = 'display-none';
                         }
                     
+                        $userListTableBuilder->noUserDataRow($noDataRowClass);
+                        
+                        
                         $userActionCell = $userListTableBuilder->userActionCell(['add' => true]);
                         $newUserCells = array_merge(
                                             [$userActionCell],
-                                            $userListTableBuilder->newUserInfoCells(null)
+                                            $userListTableBuilder->newUserDataCells(null)
                                         );
 
-                        $userListTableBuilder->userInfoRow(null, $newUserCells, 'user-list__row--add-user') .
+                        $userListTableBuilder->userDataRow(null, $newUserCells, 'user-list__row--add-user') .
 
 
                         $userListTableBuilder->render();
