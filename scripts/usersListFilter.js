@@ -1,24 +1,42 @@
 let filterOptions = {
-        subscribers: {
-            number: true,
-            fname: true,
-            email: true
-        },
-        audit_subscribers: {
-            subscriber_name: true,
-            action_performed: true,
-            date_added: true 
-        },
-        user_action: true,
-        insert: true,
-        update: true,
-        addNewUser: true
-    }
+    subscribers: {
+        number: true,
+        fname: true,
+        email: true
+    },
+    audit_subscribers: {
+        subscriber_name: true,
+        action_performed: true,
+        date_added: true 
+    },
+    user_action: true,
+    insert: true,
+    update: true,
+    addNewUser: true
+}
 
 
 
 setObjWatchers(filterOptions, 'filterOptions', function () {});
 
+setSingleWatcher(filterOptions, 'insert', filterOptions.insert, (value) => {
+
+    blockFilterCheckboxes('audit-subscribers', (!value && !filterOptions.update));
+})
+
+
+setSingleWatcher(filterOptions, 'update', filterOptions.update, (value) => {
+
+    blockFilterCheckboxes('audit-subscribers', (!value && !filterOptions.insert));
+})
+
+
+function blockFilterCheckboxes(groupName, boolValue) {
+
+    document.querySelectorAll('.filter-nav__checkbox--option-group-' + groupName).forEach(
+        (checkbox) => checkbox.disabled = boolValue
+    );
+}
 
 
 function updateCheckboxes () {
