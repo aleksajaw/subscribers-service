@@ -87,11 +87,12 @@
             
             $cellName = $this->newUserInput('fname', 'fname[]', '', 'updateFutureUserInfo(this)', false);
             $cellEmail = $this->newUserInput('email', 'email[]', '', 'updateFutureUserInfo(this)', false);
+            $visibleCellClass = 'user-list__cell--always-visible';
 
             $cells = [
                         $this->userNumberCell(null),
-                        $this->userInputCell('fname', $cellName),
-                        $this->userInputCell('email', $cellEmail),
+                        $this->userInputCell('fname ' . $visibleCellClass, $cellName),
+                        $this->userInputCell('email ' . $visibleCellClass, $cellEmail),
                         $this->userEmptyCell('', 'colspan=10'),
                     ];
 
@@ -101,13 +102,15 @@
 
         public function userActionCell($actionArgs=[]) {
             
-            return "<td class='user-list__cell user-list__cell--user-action'>".
+            $class = ( isset($actionArgs['class']) ) ? $actionArgs['class'] : '';
+
+            return "<td class='user-list__cell user-list__cell--user-action " . $class . "'>".
                         
                         (array_key_exists('edit', $actionArgs) ? $this->editUserActionBtn($actionArgs['edit']) :'') .
 
                         (array_key_exists('del', $actionArgs) ? $this->delUserActionBtn($actionArgs['del']) :'') .
 
-                        ((array_key_exists('add', $actionArgs) && $actionArgs['add'] === true)
+                        ((isset($actionArgs['add']) && $actionArgs['add'])
                             ? $this->addActionBtn()
                             : '') .
 
