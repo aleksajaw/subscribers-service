@@ -3,7 +3,7 @@ function ajaxRequest(url, data, successCallback, errorCallback, reload = false) 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', './config/' + url);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 handleAjaxSuccess(xhr.responseText, successCallback, reload);
@@ -62,23 +62,23 @@ function setObjWatchers(obj, keyPath = '', handleChange) {
 
             setObjWatchers(value, currentPath, handleChange);
         } else {
-            setSingleWatcher(obj, key, value, currentPath, handleChange);
+            setSingleWatcher(obj, key, value, handleChange, currentPath);
         }
     }
 }
 
 
 
-function setSingleWatcher(container, variable, value, variablePath, handleChange){
+function setSingleWatcher(container, variable, value, handleChange, variablePath = variable){
 
     Object.defineProperty(container, variable, {
-        get: function() {
+        get: () => {
             return value;
         },
-        set: function(newValue) {
+        set: (newValue) => {
             value = newValue;
             consoleVariableChangeLog(newValue, variablePath);
-            if (typeof handleChange === 'function') handleChange();
+            if (typeof handleChange === 'function') handleChange(value);
         }
     });
 }
@@ -131,6 +131,17 @@ function searchKeyValueDeepInside(objToSearch, targetKey, showLog = false) {
 
 
 function getDataFromClassName(el, data='') {
+    // make sure that we don't receive an additional class
+    // after the section we want
+    return el.className.split(data)[1].split(' ')[0];
+}
 
-    return el.className.split(data)[1];
+
+function getDataFromClassNameByRegex(el, regexStr='', elNum=1) {
+    
+    if ( regexStr ) {
+        return el.className.match(regexStr)[elNum];
+    } else {
+        return null;
+    }
 }
