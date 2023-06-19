@@ -31,7 +31,7 @@
         }
 
 
-        public function userInfoRow($number=null, $cells, $class = '') {
+        public function userDataRow($number=null, $cells='', $class = '') {
             
             $rowClass = 'user-list__row';
 
@@ -52,37 +52,47 @@
         }
 
 
-        public function noUserDataRow() {
+        public function noUserDataRow($class = '') {
             
-            return "<tr>
-                        <td class='user-list__cell user-list__cell--no-data' colspan='4'>
+            if ( $class ) $class = ' ' . $class;
+
+            $this->rows[] = "<tr class='user-list__row user-list__row--no-data" . $class . "'>
+                        <td class='user-list__cell user-list__cell--no-data' colspan='10'>
                             Brak danych w tabeli
                         </td>
                     </tr>";
         }
 
 
-        public function userInfoCells($number = null, $fname = null, $email = null, $action_performed = null, $date_added = null) {
+        public function userDataCells($data = ['number' => null, 'fname' => null, 'email' => null, 'action_performed' => null,'date_added' => null]) {
+
+            $cellName = $this->userInput('fname', 'fname[]', $data['fname']);
+            $cellEmail = isset($data['email']) ? $this->userInput('email', 'email[]', $data['email']) : '#';
+            $cellAction_performed = ($data['action_performed']) ? $this->userStaticInfoCell('action-performed', $data['action_performed']) : null;
+            $cellDate_added = ($data['date_added']) ? $this->userStaticInfoCell('date-added', $data['date_added']) : null;
 
             $cells = [
-                $this->userNumberCell($number),
-                $this->userInputCell('fname', 'fname[]', $fname, '', ''),
-                $this->userInputCell('email', 'email[]', $email, '', 'email'),
-                $this->userInfoCell('action-performed', $action_performed),
-                $this->userInfoCell('date-added', $date_added),
+                $this->userNumberCell($data['number']),
+                $this->userInputCell('fname', $cellName),
+                $this->userInputCell('email', $cellEmail),
+                $cellAction_performed,
+                $cellDate_added,
             ];
             return $cells;
         }
         
 
-        public function newUserInfoCells($number = null) {
+        public function newUserDataCells($number = null) {
             
+            
+            $cellName = $this->newUserInput('fname', 'fname[]', '', 'updateFutureUserInfo(this)', false);
+            $cellEmail = $this->newUserInput('email', 'email[]', '', 'updateFutureUserInfo(this)', false);
+
             $cells = [
                         $this->userNumberCell(null),
-                        $this->userInputCell('fname', 'fname[]', '', 'Imię i nazwisko', '', 'updateFutureUserInfo(this)', false),
-                        $this->userInputCell('email', 'email[]', '', 'email', 'email', 'updateFutureUserInfo(this)', false),
-                        $this->userEmptyCell('action-performed'),
-                        $this->userEmptyCell('date-added'),
+                        $this->userInputCell('fname', $cellName),
+                        $this->userInputCell('email', $cellEmail),
+                        $this->userEmptyCell('', 'colspan=10'),
                     ];
 
             return $cells;
@@ -121,35 +131,61 @@
         }
 
 
-        public function userInfoCell($class, $info) {
-            
+        public function userStaticInfoCell($className='', $info='') {
 
-            return "<td class='user-list__cell user-list__cell--info user-list__cell--" . $class . "'>".
-                    
-                        $info
-
-                    . "</td>";
+            return $this->userCell('user-list__cell--static-info', $className, $info);
         }
 
 
-        public function userInputCell($class = '', $name = '', $value = '', $placeholder = '', $type='text', $onChange = 'trimWholeInputValue(this)', $disabled = true ) {
+        public function userInputCell($cellName = '', $input ) {
+            
+            return $this->userCell('', $cellName, $input);
+        }
+
+
+        public function userEmptyCell($cellName='', $cellProperty='') {
+            
+            return $this->userCell('user-list__cell--empty', $cellName, '#', $cellProperty);
+        }
+
+
+        public function userCell($class = '', $cellName = '', $content = '', $cellProperty = '') {
+
+            $class = $class ? ' ' . $class : '';
+            $class .= $cellName ? " user-list__cell--" . $cellName : '';
+
+            return "<td class='user-list__cell" . $class . "' ". $cellProperty .">"
+                        . $content .
+                    "</td>";
+        }
+
+
+        public function userInput($class = '', $name = '', $value = '', $type='text', $onChange = 'trimWholeInputValue(this)', $disabled = true ) {
             
             $disabled = $disabled ? ' disabled' : '';
             $type = $type ? $type : 'text';
 
-            return "<td class='user-list__cell user-list__cell--" . $class . "'>             
-                        <input
-                            class='user-list__input user-list__input--". $class ."' name='" . $name . "' value='" . $value . "'" . "placeholder='" . $placeholder ."'
-                            type='" . $type . "' onChange='" . $onChange . "' required" . $disabled .
-                        ">
-                    
-                    </td>";
+            return "<input
+                        class='user-list__input user-list__input--". $class ."' name='" . $name . "' value='" . $value . "' placeholder='" . $value . "'
+                        type='" . $type . "' onChange='" . $onChange . "' required" . $disabled .
+                    ">";
         }
 
 
-        public function userEmptyCell($class) {
+        public function newUserInput($class = '', $name = '', $value = '', $type='text', $onChange = 'trimWholeInputValue(this)') {
             
-            return "<td class='user-list__cell user-list__cell--empty user-list__cell--" . $class . "'>#</td>";
+            $type = $type ? $type : 'text';
+            $placeholders = [
+                                'fname[]' => 'Imię i nazwisko',
+                                'email[]' => 'adres@email.pl'
+            ];
+            $placeholder = '';
+            $placeholder = $placeholders[$name] ?: '';
+
+            return "<input
+                        class='user-list__input user-list__input--". $class ."' name='" . $name . "' value='" . $value . "'" . "placeholder='" . $placeholder ."'
+                        type='" . $type . "' onChange='" . $onChange . "' required" .
+                    ">";
         }
 
 

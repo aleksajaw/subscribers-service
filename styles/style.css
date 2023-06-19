@@ -21,8 +21,12 @@ th {
 td {
     padding: 15px
 }
-.user-list__row--hidden-user td:not(.user-list__cell--info) {
+.user-list__row--hidden-user {
     visibility: hidden
+}
+.user-list__row--hidden-user td.user-list__cell--static-info,
+.user-list__row--main-substitute td {
+    visibility: visible!important;
 }
 .user-list__row--add-user {
     border-top: 3px solid rgba(0, 172, 0, 0.15);
@@ -33,15 +37,15 @@ td {
     border: 2px solid rgba(0, 172, 0, 0.25);
     outline:unset
 }
+.user-list__row--add-user td {
+    display:table-cell;
+}
 .user-list__cell--number {
     border-right: 2px solid black;
     text-align: center;
     min-width: 30px;
 }
-.user-list__cell--action-performed {
-    border-left: 2px solid black;
-}
-.user-list__cell--user-action {
+.user-list__cell--user-action, .user-list__cell--email {
     border-right: 2px solid black
 }
 .user-list__cell--action-performed, .user-list__cell--date-added, .user-list__cell--user-action{
